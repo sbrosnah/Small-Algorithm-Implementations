@@ -2,17 +2,26 @@ Steps:
 1. Determine whether or not you can solve the problem by breaking it up into sub-problems
     - If the subproblems can be broken up into smaller problems by a reduction factor, you should probably use divide and conquer
     - However, if you just need smaller subproblems to solve the current one and the you can use a recurrence relation to solve the problem, dynamic programming is the answer!
-2. Enumerate and define the collection of subproblems 
-3. Visualize the problem
+2. Visualize the problem
     - If you can draw a dag with the subproblem ansers as nodes and edges as the relationships between subproblems, you are on the right track!
+3. Enumerate and define the collection of subproblems 
 4. Determine if the follwing key property is met:
     There is an ordering of subproblems (linearization of a dag) and a relation that shows how to solve a subproblem given the answers to "smaller" sub probblems (Ones that appear earlier in the linearization)
-4. Define the recurrence relation
+5. Define the recurrence relation
     - You will usually have incoming edges and you will want to apply a function to the result of a function of those edges.
     - For examply, you may want to find the max of the value of a previous node plus the length of the edge. Finding the max is the function of the result of the addition function. 
     - If there are multiple incoming edges, it may be a good idea to have a reverse graph adjacency list (reverse of the dag). The adjacency lists are your incoming edges to any given node. 
-5. Implement it 
+6. Implement it 
+    - You will want to memoize your results and keep them in a dictionary so that you don't need to solve the subproblem again. 
     - Often, you will want to keep a dictionary of the values of each node and a dictionary of the previous node for any given node. 
     - You just need to loop through the previos nodes and add them to the result. 
+
+
+Dynamic programming is not a greedy solution because greedy algorithms don't have hindsite to previous solutions. 
+Greedy algorithms take shortcuts to find optimum solutions where dynamic solutions do exhaustive searches. 
+However, you can combine the two. 
+
+
+
 
 
