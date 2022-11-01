@@ -112,13 +112,13 @@ def EditDistance(strings, d = None):
     #Check the base cases (shortcuts to save computation)
     #This case takes care of the cases where they are both empty and when they both arent but equal
     if str_1 == str_2:
-        return 0
+        return 0, ""
     #When one is empty and the other isn't
     if len(str_1) == 0 and len(str_2) != 0:
         #Because we will need to do that many insertions
-        return len(str_2) * INDEL
+        return len(str_2) * INDEL, str_2
     if len(str_1) != 0 and len(str_2) == 0:
-        return len(str_1) * INDEL
+        return len(str_1) * INDEL, str_1
     
     #If the d that is passed in is 0???
     
@@ -243,50 +243,84 @@ def EditDistance(strings, d = None):
             #This is for while it isn't possible to index to the right so we can still shrink the start
             if j == n - 1 and max_sub_size < max_possible:
                 start_ind += 1
+    
+    curr_cell = (m - 1, n - 1)
+    output = []
+    while True:
+        #The first part of the cell tuple gives us the letter of the word we are changing, the second corresponds
+        #to the word we are changing to. We want to insert a '-' if it was an indel, otherwise, we wantthe actual
+        # letter (if we moved diagonally)
+        prev_cell = prev[curr_cell]
+        if prev_cell == None:
+            #Then we are on the null string base case and can exit
+            break
 
-    return matrix[m - 1, n - 1]
+        #code goes here
+        if curr_cell[0] - 1 == prev_cell[0] and curr_cell[1] - 1 == prev_cell[1]:
+            #Then it was a diagonal
+            #Needs to be minus one because our matrix is offset by 1
+            output.insert(0, str_1[curr_cell[0] - 1])
+        else:
+            #It was an indel, so we store a hyphen
+            output.insert(0, '-')
+
+        curr_cell = prev_cell
+    
+    #Convert array tostring
+    out_str = "".join(output)
+        
+
+    return matrix[m - 1, n - 1], out_str
 
 def run_test(test_input, d = None):
-    test_output = EditDistance(test_input, d)
-    print("Test Results: ", test_output)
-    #print("Results Length: ", len(test_output))
+    test_cost, test_str = EditDistance(test_input, d)
+    print("Test Cost: ", test_cost)
+    print("Test Output: ", test_str)
 
 
 if __name__=="__main__":
 
 
-    # #Expected: 0
-    # test_input = ["", ""]
-    # run_test(test_input)
+    #Expected: 0
+    test_input = ["", ""]
+    run_test(test_input)
 
-    # #Expected: 1
-    # test_input = ["A", "B"]
-    # run_test(test_input)
+    #Expected: 1
+    test_input = ["A", "B"]
+    run_test(test_input)
 
-    # #Expected: 1
-    # test_input = ["A", ""]
-    # run_test(test_input)
+    #Expected: 1
+    test_input = ["A", ""]
+    run_test(test_input)
 
-    # #Expected: 1
-    # test_input = ["", "B"]
-    # run_test(test_input)
+    #Expected: 1
+    test_input = ["", "B"]
+    run_test(test_input)
 
-    # #Expected: 1
-    # test_input = ["", "B"]
-    # run_test(test_input)
+    #Expected: 1
+    test_input = ["", "B"]
+    run_test(test_input)
 
-    # #Expected: 0
-    # test_input = ["b", "B"]
-    # run_test(test_input)
+    #Expected: 0
+    test_input = ["b", "B"]
+    run_test(test_input)
 
     #Expected: 3
     test_input = ["thars", "other"]
     run_test(test_input, 2)
 
-    # #Expected: 3
-    # test_input = ["Thars", "oTher"]
-    # run_test(test_input, 2)
+    #Expected: 3
+    test_input = ["Thars", "oTher"]
+    run_test(test_input, 2)
 
     #Expected: -1
     test_input = ["exponential", "polynomial"]
     run_test(test_input)
+
+    #Expected: -1
+    test_input = ["exponential", "polynomial"]
+    run_test(test_input, 2)
+
+    #Expected: -2
+    test_input = ["ATGCC", "TACGCA"]
+    run_test(test_input, 2)

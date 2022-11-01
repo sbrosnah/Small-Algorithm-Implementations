@@ -1,0 +1,15 @@
+Linear Programming - Class of optimization tasks where both constraints and optimization criterion are linear functions. 
+
+Given a set of variables, we want to 
+1. satisfy a set of linear equations and/or linear inequalities involving the variables
+2. maximize or minimize a given lenear objective function
+
+Constraints make up the half-space
+the set of all feasable solutions lies in the intersection of the half-space
+The space of feasable solutions creates a convex polygon
+
+Vertices give us the optimal solution. The objective function gives us a line. This line is parallel to itself no matter where we move it in the space. Therefore, we want to move it accordingly
+(either as far up or as far down as possible).
+
+Solving linear programs
+You can solve them by using the simplex method. 
